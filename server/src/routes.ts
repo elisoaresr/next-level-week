@@ -9,7 +9,7 @@ routes.get('/items', async (request, response) => {
     const serializedItems = items.map(item => {
         return {
             id: item.id,
-            name: item.title,
+            title: item.title,
             image_url: `http://localhost:3333/uploads/${item.image}`,
         };
     });
@@ -18,7 +18,7 @@ routes.get('/items', async (request, response) => {
 });
 
 routes.post('/points', async (request, response) => {
-    const { 
+    const {
         name,
         email,
         whatsapp,
@@ -27,9 +27,11 @@ routes.post('/points', async (request, response) => {
         city,
         uf,
         items
-    }   = request.body;
+    } = request.body;
 
-    await knex('points').insert({
+    const trx = await knex.transaction()
+
+    const insertedIds = await trx('points').insert({
         image: 'image-fake',
         name,
         email,
@@ -37,14 +39,21 @@ routes.post('/points', async (request, response) => {
         latitude,
         longitude,
         city,
-        uf,
+        uf
     });
 
-    const pointItems = items
+    const point_id = insertedIds[0];
 
-    await knex('point_items').insert();
+    const pointItems = items.map((item_id: number) => {
+        return {
+            item_id,
+            point_id,
+        };
+    })
+
+    await trx('point_items').insert(pointItems);
 
     return response.json({ success: true });
 });
 
-export default routes;  
+export default routes;
