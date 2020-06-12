@@ -1,2 +1,3 @@
 # next-level-week
-# Immersive training in the most modern web and mobile development technologies from rocketseat.
+  Immersive Training with web and mobile versions developed during the RocketSeat's Next Level Week Event - 2020.
+
