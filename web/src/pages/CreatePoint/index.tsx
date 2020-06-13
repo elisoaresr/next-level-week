@@ -116,7 +116,7 @@ const CreatePoint = () => {
     }
   }
 
-   function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
     const { name, email, whatsapp } = formData;
@@ -136,7 +136,9 @@ const CreatePoint = () => {
       items
     };
 
-    console.log(data);
+   await api.post('points', data);
+
+   alert('Ponto de coleta criado!')
   }
 
   return (
@@ -146,7 +148,7 @@ const CreatePoint = () => {
 
         <Link to="/">
           <FiArrowLeft />
-                    Voltar para home
+            Voltar para home
         </Link>
       </header>
 
@@ -162,8 +164,8 @@ const CreatePoint = () => {
             <label htmlFor="nome">Nome da entidade</label>
             <input
               type="text"
-              name="email"
-              id="email"
+              name="name"
+              id="name"
               onChange={handleInputChange}
             />
           </div>
@@ -181,7 +183,7 @@ const CreatePoint = () => {
               <label htmlFor="whatsapp">Whatsapp</label>
               <input
                 type="text"
-                name="name"
+                name="whatsapp"
                 id="whatsapp"
                 onChange={handleInputChange}
               />
