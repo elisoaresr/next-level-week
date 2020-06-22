@@ -2,7 +2,7 @@ import React from 'react';
 import Constants from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
 
@@ -13,6 +13,10 @@ const Points = () => {
     navigation.goBack();
   }
 
+  function handleNavigateToDetail() {
+    navigation.navigate('Detail');
+  }
+  
   return (
     <>
       <View style={styles.container}>
@@ -32,11 +36,19 @@ const Points = () => {
             longitudeDelta: 0.014,
           }}
         >
-          <Marker coordinate={{ 
+          <Marker 
+            style={styles.mapMarker}
+            onPress={handleNavigateToDetail}
+            coordinate={{ 
             latitude: -22.7145794,
             longitude: -43.4355784,
             }} 
-          />
+          >
+          <View style={styles.mapMarkerContainer}>
+            <Image style={styles.mapMarkerImage} source={{ uri: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60'}} />
+            <Text style={styles.mapMarkerTitle}>Mercado</Text>
+          </View>
+        </Marker>
         </MapView>
         </View>
       </View>
